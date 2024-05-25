@@ -20,7 +20,6 @@ Como vemos los datos vienen sucios:
 
 
 ## Objetivos
----
 - **Estandarizar del idioma**: convertir todos los registros al idioma inglés para mantener la coherencia lingüística.
 - **Corrección de encabezados**: revisar y corregir los nombres de los encabezados para asegurar que sean claron y descriptivos
 - **Formateo de fechas**: ajustar las fechas para que estén en un formato de fecha adecuado en lugar de estar en formato de texto.
@@ -34,7 +33,6 @@ Información de la tabla:
 
 
 ## Renombrar los nombres de las columnas con caracteres especiales
----
 
 Para renombrar una columna:
 
@@ -43,7 +41,6 @@ ALTER TABLE limpieza CHANGE COLUMN `ï»¿Id?empleado` Id_emp varchar (20) null;
 ```
 
 ## Verificar si hay registros duplicados
----
 
 ```sql
 select Id_emp, count(*) as cantidad_duplicados 
@@ -69,7 +66,6 @@ having count(*) > 1
 ```
 
 ## Crear una tabla temporal con valores únicos y luego hacerla permanente
----
 
 Para renombrar la tabla:
 
@@ -134,7 +130,6 @@ drop table conduplicados;
 ```
 
 ## Activar/Desactivar modo seguro
----
 
 Para desactivar el modo seguro que SQL trae por defecto y permitir realizar modificaciones, puedes utilizar el siguiente código:
 
@@ -143,7 +138,6 @@ set sql_safe_updates = 0;
 ```
 
 ## Renombrar los nombres de las columnas
----
 
 ```sql
 ALTER TABLE limpieza CHANGE COLUMN `gÃ©nero` Gender varchar(20) null;
@@ -153,7 +147,6 @@ ALTER TABLE limpieza CHANGE COLUMN star_date Start_date varchar(50) null;
 
 
 ## Revisar los tipos de datos de la tabla
----
 
 ```sql
 describe limpieza;
@@ -165,7 +158,7 @@ describe limpieza;
 - Hay fechas con tipo de dato texto.
 
 ## Trabajando con texto (strings)
----
+
 ### Identificar espacios extra
 
 ```sql
@@ -249,7 +242,6 @@ update limpieza set area = trim(regexp_replace(area, '\\s+', ' '));
 ```
 
 ## Buscar y reemplazar (textos)
----
 
 1. Ensayar 
 2. Actualizar tabla
@@ -367,7 +359,6 @@ alter table limpieza modify column salary int null;
 ```
 
 ## Trabajando con fechas
----
 
 ### Dar formato a la fecha
 
@@ -409,7 +400,6 @@ alter table limpieza modify column birth_date date;
 ```
 
 ## Explorando otras funciones de fecha
----
 
 ![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/d6a0cb28-703d-4a53-9d90-4b5cc2ba7005)
 
@@ -473,7 +463,6 @@ from limpieza;
 
 
 ## Hacer una copia de seguridad de una columna
----
 
 ```sql
 alter table limpieza add column date_backup text;
@@ -549,7 +538,6 @@ alter table limpieza modify column finish_date datetime;
 ```
 
 ## Calculos con fechas
----
 
 ### Conocer la edad de ingresos de nuestros empleados
 
@@ -579,7 +567,6 @@ set age = timestampdiff(year, birth_date, curdate())
 
 
 ## Funciones de texto
----
 
 Si queremos crear una columna email donde tome las iniciales del nombre, del apellido y del tipo (hibrido o remoto): 
 
@@ -608,7 +595,6 @@ update limpieza set email = concat(substring_index(name, ' ', 1), '_', substring
 
 
 ## Seleccionamos las columnas que deseamos conservar.
----
 
 ```sql
 select Id_emp, name, last_name, age, gender, area, salary, email, finish_date from limpieza
@@ -631,7 +617,6 @@ order by cantidad_empleados desc;
 ![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/edb6e732-8ec7-4a5f-9991-1c633de02306)
 
 ## Exportar datos
----
 
 Para exportar la configuración anterior o la de arriba de los empleados, procedemos a:
 
