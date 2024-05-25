@@ -7,13 +7,15 @@ create database if not exists clean;
 
 Luego importamos el archivo:
 
-![[Pasted image 20240314211936.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/57d1ca83-11ec-4344-8ffc-c675d8a13779)
 
-![[Pasted image 20240314212049.png]]
+
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/67dc421e-daa6-4abb-9fd6-7acd9d186e6b)
 
 Como vemos los datos vienen sucios:
 
-![[Pasted image 20240314212139.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/0698effa-a00c-42da-b197-861d17729456)
+
 
 ## Objetivos
 ---
@@ -26,7 +28,8 @@ Como vemos los datos vienen sucios:
 
 Información de la tabla:
 
-![[Pasted image 20240314213530.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/dd3fcf16-c213-497b-9940-42de02255243)
+
 
 ## Renombrar los nombres de las columnas con caracteres especiales
 ---
@@ -87,7 +90,8 @@ Al seleccionar los distintos, va a seleccionar todos los valores no duplicados. 
 select count(*) as original from conduplicados;
 ```
 
-![[Pasted image 20240314224233.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/773409ea-da99-4179-9585-e2f91298286a)
+
 
 Seleccionamos nuestra tabla temporal y observamos los siguientes puntos:
 1. Los valores duplicados han sido eliminados correctamente.
@@ -97,7 +101,8 @@ Seleccionamos nuestra tabla temporal y observamos los siguientes puntos:
 select count(*) as original from temp_limpieza;
 ```
 
-![[Pasted image 20240314224403.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/538baa22-3318-4569-879c-94dc33f300d9)
+
 
 ### Convertir la tabla temporal a permanente
 
@@ -105,7 +110,8 @@ select count(*) as original from temp_limpieza;
 create table limpieza as select * from temp_limpieza;
 ```
 
-![[Pasted image 20240314224855.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/bebf946f-78b6-4635-a62e-2b32097ad485)
+
 
 Verificamos si aún hay duplicados nuevamente:
 
@@ -151,7 +157,8 @@ ALTER TABLE limpieza CHANGE COLUMN star_date Start_date varchar(50) null;
 describe limpieza;
 ```
 
-![[Pasted image 20240314230925.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/90d155c1-84ad-469b-946c-ece90c729d1b)
+
 
 - Hay fechas con tipo de dato texto.
 
@@ -166,7 +173,8 @@ where length(name) - length(trim(name)) > 0;
 
 - ``trim`` se utiliza para eliminar espacios en blanco o caracteres específicos al inicio y/o al final de una cadena de texto.
 
-![[Pasted image 20240314231615.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/06ac06ca-8cbe-44f9-b8a5-434d518a1b72)
+
 
 
 ```sql
@@ -175,7 +183,8 @@ from limpieza
 where length(name) - length(trim(name)) > 0;
 ```
 
-![[Pasted image 20240314231925.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/ba3ad95d-6b14-4893-981d-1feb0f6b3593)
+
 
 ### Eliminar los espacios extra
 
@@ -219,7 +228,8 @@ where area regexp '\\s{2,}'
 
 ``regexp`` : expresion regular
 
-![[Pasted image 20240314233456.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/a4c9c86b-17b7-473c-934b-cb19d95494ec)
+
 
 #### Código de ensayo de eliminación de los espacios
 
@@ -227,7 +237,8 @@ where area regexp '\\s{2,}'
 select area, trim(regexp_replace(area, '\\s+', ' ')) as ensayo from limpieza;
 ```
 
-![[Pasted image 20240314233945.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/17bdc27b-27c9-4312-a4bb-422a5e846d28)
+
 
 #### Aplicar los cambios a la tabla
 
@@ -255,8 +266,8 @@ case
 end as gender1
 from limpieza;
 ```
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/95f7d931-f0ed-417f-b40e-a6ec0cd68190)
 
-![[Pasted image 20240315005348.png]]
 
 ### Actualizar la tabla
 
@@ -274,9 +285,11 @@ end;
 
 Ahora hay que modificar esta columna *type* y que admita texto no números:
 
-![[Pasted image 20240315010556.png|50]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/4d11dea2-d2af-461a-b2a5-f7b3d3b020cd)
 
-![[Pasted image 20240315010627.png]]
+
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/b6b09894-864b-44e4-ae4f-eb84c3f8c653)
+
 
 
 > [!NOTE] CONSEJO
@@ -299,7 +312,8 @@ end as ejemplo
 from limpieza;
 ```
 
-![[Pasted image 20240315012159.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/ca1701ef-e0fc-4dbc-8b1d-203db699c96d)
+
 
 #### Actualizar la tabla
 
@@ -316,7 +330,8 @@ end;
 
 ### Ajustar formato números
 
-![[Pasted image 20240315012432.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/3fdbb489-c62b-425b-af98-c8b30ee16c38)
+
 
 #### Ensayo
 
@@ -335,7 +350,7 @@ select salary,
 	- para eliminar $
 	- para eliminar la coma
 
-![[Pasted image 20240315013239.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/f508da7b-6d36-4682-be33-3fa3d70ebe2f)
 
 #### Actulizar la tabla
 
@@ -354,7 +369,8 @@ alter table limpieza modify column salary int null;
 
 ### Dar formato a la fecha
 
-![[Pasted image 20240316100107.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/4cda977f-13d8-4feb-8913-36f38f89b7ce)
+
 
 #### Ensayo
 
@@ -370,7 +386,8 @@ from limpieza;
 - El símbolo `%` se utiliza porque, por ejemplo, el día puede tener uno o dos dígitos.
 - Se utiliza `WHEN` dos veces porque puede haber filas donde la fecha esté separada por un guion u otro delimitador.
 
-![[Pasted image 20240316100511.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/2fc13506-c611-4012-a471-22274b274934)
+
 
 #### Actualizar la tabla
 
@@ -392,7 +409,8 @@ alter table limpieza modify column birth_date date;
 ## Explorando otras funciones de fecha
 ---
 
-![[Pasted image 20240316101747.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/d6a0cb28-703d-4a53-9d90-4b5cc2ba7005)
+
 
 **Objetivo**:
 - convertirlo al formato de fecha
@@ -404,7 +422,8 @@ alter table limpieza modify column birth_date date;
 select finish_date, str_to_date(finish_date, '%Y-%m-%d %H:%i:%s') as fecha from limpieza;
 ```
 
-![[Pasted image 20240316102026.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/e9288003-4673-4fc9-a6ae-5c9f399db374)
+
 
 ### Prototipo 2
 
@@ -414,7 +433,8 @@ select finish_date, str_to_date(finish_date, '%Y-%m-%d %H:%i:%s') as fecha from 
 select finish_date, date_format(str_to_date(finish_date, '%Y-%m-%d %H:%i:%s'), '%Y-%m-%d') as fecha from limpieza;
 ```
 
-![[Pasted image 20240316102328.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/7a2270f5-8351-49be-bd9f-e3f211491461)
+
 
 ### Para separar solo la fecha
 
@@ -422,7 +442,8 @@ select finish_date, date_format(str_to_date(finish_date, '%Y-%m-%d %H:%i:%s'), '
 select finish_date, str_to_date(finish_date, '%Y-%m-%d') as fd from limpieza;
 ```
 
-![[Pasted image 20240316103117.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/eb6bea6b-7744-4ce2-9137-87eb60c89eda)
+
 
 ### Separar solo la hora
 
@@ -432,7 +453,8 @@ select finish_date, date_format(finish_date, '%H:%i:%s') as hour_stamp from limp
 
 - Para obtener solo la hora hay que usar ``date_format``, si utilizamos ``str_to_data``, no va a funcionar
 
-![[Pasted image 20240316103139.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/c87e3d2f-7aa8-4e7e-bc44-65944cf407ea)
+
 
 ### Dividiendo los elementos de la hora en en distintas columnas
 
@@ -445,7 +467,8 @@ select finish_date,
 from limpieza;
 ```
 
-![[Pasted image 20240316103821.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/f17894ab-7525-4b06-8747-090f8aa268c7)
+
 
 ## Hacer una copia de seguridad de una columna
 ---
@@ -460,7 +483,8 @@ Para que los elementos sean los mismos
 update limpieza set date_backup = finish_date
 ```
 
-![[Pasted image 20240316104224.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/6972eb48-334e-4234-b0c8-4b5df5a98b21)
+
 
 ---
 
@@ -472,7 +496,8 @@ update limpieza set date_backup = finish_date
 select finish_date, str_to_date(finish_date, '%Y-%m-%d %H:%i:%s') as fecha from limpieza;
 ```
 
-![[Pasted image 20240316104519.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/34a8c1b8-b2c7-4066-8446-1a3c673b4f16)
+
 
 #### Actualizar la tabla
 
@@ -484,7 +509,8 @@ where finish_date <>'';
 - <> : significa diferente
 - El segundo argumento que termina en UTC tiene que ser igual a la columna original.
 
-![[Pasted image 20240316110424.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/5b893463-ba72-4ef2-863c-05ee5cdff0da)
+
 
 ### Ahora separar en una columna la fecha y en otra la hora
 
@@ -496,7 +522,8 @@ alter table limpieza
     add column hora time;
 ```
 
-![[Pasted image 20240316110759.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/8869cd35-b70e-456a-ac36-fd90991d2012)
+
 
 Para evitar errores debemos llenar las casillas sin nada con valores *null*:
 
@@ -536,7 +563,8 @@ Se calculo: birth_date $-$ start_date
 select name, birth_date, start_date, timestampdiff(year, birth_date, start_date) as edad_de_ingreso from limpieza;
 ```
 
-![[Pasted image 20240316113052.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/4735f1e3-cbca-40f2-8c34-ea1ae45aab35)
+
 
 - ``timestampdiff()`` : no toma en cuenta los meses y días.
 
@@ -561,7 +589,8 @@ select concat(substring_index(name, ' ', 1), '_', substring(last_name, 1,2), '.'
 - En `(last_name, 1, 2)`, se captura el apellido hasta el segundo carácter.
 - `SUBSTRING(type, 1, 1)`: Solo se extrae el primer carácter del campo "type".
 
-![[Pasted image 20240316114919.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/89b9e46f-303a-4fe5-a766-ff536daa5fb3)
+
 
 Creamos la columna email:
 
@@ -587,7 +616,8 @@ order by area, name;
 
 - ``curdate()`` : fecha actual
 
-![[Pasted image 20240316115944.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/9407f2a2-c843-4fa3-8ff4-b817b9a05ac5)
+
 
 ### Contar la cantidad de empleados que hay en cada area
 
@@ -596,12 +626,12 @@ select area, count(*) as cantidad_empleados from limpieza
 group by area
 order by cantidad_empleados desc;
 ```
-
-![[Pasted image 20240316120426.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/edb6e732-8ec7-4a5f-9991-1c633de02306)
 
 ## Exportar datos
 ---
 
 Para exportar la configuración anterior o la de arriba de los empleados, procedemos a:
 
-![[Pasted image 20240316120745.png]]
+![image](https://github.com/toby5599/Proyecto-limpieza-de-datos/assets/131751919/81b6fb47-a2e1-4ec6-a0c3-13cd8003dd6a)
+
